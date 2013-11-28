@@ -1,0 +1,172 @@
+body
+   {
+    background-image: url(debut_dark.png);
+    background-repeat:repeat;
+
+   }
+
+   .wrapper
+   {
+    width: 100%;
+   }
+
+
+    #container
+    {
+      
+    background-image: url(cartoonalley.jpg);
+    width: 1023px;
+     height:670px;
+     margin: 0px auto;
+     border: 2px solid gray;
+     border-left: 0px;
+     float: right
+     
+  
+      } 
+
+      .sidebar{
+  width:200px;
+  height: 670px;
+  background: #E3E3E3;
+  float:left;
+  margin-left: 18px;
+  border: solid 2px gray;
+  color: #333333;
+  font-family: ‘Trebuchet MS’, Helvetica, sans-serif;
+  font-size: 95%;
+  
+  
+}
+
+#jaws-log
+{
+
+  background: #E3E3E3;
+  width: 200px;
+  position: absolute;
+
+}
+
+.header{
+background-color: #F2F2F2;
+border-top: solid 2px gray;
+border-bottom: solid 2px gray;
+
+padding: 3px 3px 3px;
+margin-top:10px;
+margin-bottom:5px;
+text-align: center;
+color:gray;
+}
+
+.sidebar_content{
+
+  padding-left: 5px;
+}
+
+
+#ammo_sidebar_image{
+
+
+  /*background: url(small_25x43.png) no-repeat center center;*/
+ color: #3B5998;
+  display: block;
+  position: relative;
+  border: solid 2px black;
+  width: 60px;
+  height: 150px;
+ margin: 0px auto;
+}
+
+#select{
+  position: absolute;
+  background: gray;
+  margin-top: 350px;
+  margin-left: 200px;  
+  width: 600px;
+  height: 300px;
+  border: solid 3px black;
+
+}
+
+#select_player_box{
+
+  color: #3B5998;
+  border: 4px dashed #ccc;
+  height: 250px ;
+  width: 200px;
+  float: left;
+  margin: 10px;
+  vertical-align: center;
+  text-align: center;
+
+
+  
+  /*margin-top: 350px;
+  margin-left: 200px;*/
+  
+}
+
+#select_enemy_box{
+
+
+  color: #3B5998;
+  border: 4px dashed #ccc;
+  height: 250px ;
+  width: 200px;
+  float: right;
+  margin: 10px;
+  
+  
+ /* margin-top: 350px;
+  margin-left: 600px;*/
+  
+}
+
+#box_text{
+  position: relative;
+  color:#333333;
+  font-family: ‘Trebuchet MS’, Helvetica, sans-serif;
+  font-size: 95%;
+  background: gray;
+  width: 600px;
+  height: 20px;
+}
+
+#vs {
+  position: relative;
+  float: left;
+  font-size: 300%;
+  color: red;
+  font-family: ‘Trebuchet MS’, Helvetica, sans-serif;
+  color:#333333;
+  margin-left: 35px;
+  margin-top: 75px;
+  
+ 
+
+}
+
+#select_enemy_box p {
+ text-align: center;
+margin-top: 115px;
+vertical-align: middle;
+color:#333333;
+font-family: ‘Trebuchet MS’, Helvetica, sans-serif;
+font-size: 95%;
+background: gray;
+
+}
+
+#select_player_box p {
+ 
+text-align: center;
+margin-top: 115px;
+vertical-align: middle;
+color:#333333;
+font-family: ‘Trebuchet MS’, Helvetica, sans-serif;
+font-size: 95%;
+background: gray;
+
+}

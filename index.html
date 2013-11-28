@@ -1,0 +1,492 @@
+
+<!DOCTYPE html> 
+<html>
+  <head>
+    <script src="js/jaws.js"></script>
+    <script src="js/jquery-1.9.0.js"></script>
+   
+    <title>The Gobble Game</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+  </head>
+<body>
+ <div id="refresh">
+  <div class="wrapper">
+
+<div class=sidebar>
+
+<div class="header">
+
+    Controls
+
+  </div>
+
+<div class="sidebar_content">
+<b><p>Move: Arrow Keys<p>
+<p>Shoot: Space</p>
+<p>Speed Up: Press and Hold Shift</p>
+<p>Cycle Ammo Type Up and Down: X and Z</p>
+<p>Choose Ammo Type: 1,2,3,4</p></b>
+
+</div>
+
+  <div class="header">
+
+    Ammo
+
+  </div>
+
+  <div class="sidebar_content">
+
+
+ <b>Icecream:</b> <span id="ammo1"></span>/5<br>
+ <b>Coke:</b> <span id="ammo2"></span>/4<br>
+ <b>Pizza:</b> <span id="ammo3"></span>/3<br>
+ <b>Bucket of KFC:</b> <span id="ammo4"></span>/1<br> 
+ <p style="text-align: center"> <b>Ammo Selected:</b> <span id="ammotype"></span></p>
+
+ <div id="ammo_sidebar_image"></div>
+
+
+  </div>
+ 
+
+<div class="header">
+
+    FPS
+
+  </div>
+
+  FPS: <span id="fps"></span>
+
+
+  </div><!-- end sidebar  -->
+
+
+
+
+
+
+   <div id="container">
+    <div id="select">
+
+    <div id="box_text">
+      <b><var style="margin-left:15px">Drag a Photo of Player Here</var> <var style="float:right; margin-right:15px">Drag a Photo of Enemy Here</var></b>
+    </div>
+    <div id="select_player_box"><p>Player</p></div>
+
+    <div id="vs">VS</div>
+    
+    <div id="select_enemy_box"><p>Enemy</p></div>
+
+  </div>
+    <canvas width=1023 height=670 id="canvas"></canvas>
+
+    <h3 style="text-align: center float:bottom">jaws log</h3>
+    <div id="jaws-log"></div>
+
+   </div><!--  end container  -->
+ 
+
+  
+
+</div><!-- end wrapper -->
+<img id="img_player" src="" style="visibility:hidden"></img>
+<img id="img_enemy" src="" style="visibility:hidden"></img>
+
+
+ <!--  <div id="panel"></div>  -->
+   
+
+   
+
+     
+   <!--  /*<style type="text/css"> 
+
+   body
+   {
+    background-color: #b0c4de
+   }
+
+    #container
+    {
+      
+    background-image: url(dirtyalley.jpg);
+    width: 1023px;
+     height:670px;
+     margin: 0px auto;*/
+     border: 1px solid red;
+     
+  
+      } 
+
+     /* #panel
+      {
+     background-image: url(cartoonalley.jpg);
+     width: 200px;
+     height:670px;
+     border: 1px solid red;
+     float:left;
+
+
+      }*/
+
+  
+
+      </style>*/ -->
+
+   
+
+    
+    
+
+    <script>
+
+
+
+
+
+
+      var player
+      var playerpos
+      var boss
+      var playerspeed=5
+      var changingstate=false
+      var ammoimages=[1,1,1,1,2,2,2,3,3,5]
+      var ammoweight=10;
+      var ammonumber=5
+      var bullets = new jaws.SpriteList()
+      var ammolist= new jaws.SpriteList();
+      var poplist=new jaws.SpriteList();
+      var enemylist=new jaws.SpriteList();
+      var explodelist=new jaws.SpriteList();
+      var enemyselector = ["images/lettuce.png","images/broccoli.png", "images/pineapple.png"]
+      var healthpopselector=["images/popred1.png","images/popred2.png","images/popred3.png"]
+      var ammolimit=[5,4,3,1]
+      var enemytypes=3;
+      var enemynumber=8;
+      var score=0;
+      var health=100;
+      var openingmusic = new Audio("audio/gobble_gobble.ogg");
+      var gag = new Audio("audio/gag.ogg");
+      var alarm = new Audio("audio/alarm.ogg");
+      var cigaro = new Audio("audio/enemy.ogg");
+      var britney = new Audio("audio/gobble_gobble.ogg");
+      var end = new Audio("audio/loser.ogg");
+      var ymca = new Audio("audio/in_game.ogg");
+      var scream = new Audio("audio/scream.ogg");
+      var bomb = new Audio("audio/bomb.ogg");
+      var gunClick=new Audio("audio/gunclick.ogg")
+      bomb.volume=0.2;
+      scream.volume=0.2;
+      alarm.volume=0.2;
+      cigaro.volume=0.7;
+      var ammo1_amount=document.getElementById("ammo1")
+      var ammo2_amount=document.getElementById("ammo2")
+      var ammo3_amount=document.getElementById("ammo3")
+      var ammo4_amount=document.getElementById("ammo4")
+      var ammo_pic=document.getElementById("ammo_sidebar_image")
+      var select_window=document.getElementById("select");
+      var img_player_box=  document.getElementById('select_player_box');
+      var img_enemy_box=  document.getElementById('select_enemy_box');
+      var img_player=document.getElementById('img_player');
+      var img_enemy=document.getElementById('img_enemy');
+      var choose_player= false;
+      var choose_enemy=false;
+
+
+     // var frames= document.getElementById("fps")
+      
+      var select=document.getElementById("ammotype")
+
+
+     
+        ammo1_amount=0;
+        ammo2_amount=0;
+        ammo3_amount=0;
+        ammo4_amount=0;
+        select=1;
+
+
+    
+
+     //var ammolist= [];
+//picture randomizer, not automatically in ammo_single function for testing purposes
+      var imageselector = function(x)
+      {
+        if(x==1)
+        {i="images/icecream.png"}
+        
+        else if (x==2) 
+        {i="images/coke.png"}
+        
+        
+        else if (x==3)
+        {i="images/pizza.png"}
+        
+        
+        else if (x==5)
+        {i="images/bucket.png"}
+      else
+         {i="hello"}
+        return i;
+        
+      }
+//popup selector
+      var popselector =function(x)
+      {
+        if(x==1)
+        {i="images/pop1.png"; if(ammo1_amount<ammolimit[0]){ammo1_amount+=1}}
+        
+        else if (x==2) 
+        {i="images/pop2.png";if(ammo2_amount<ammolimit[1]){ammo2_amount+=1}}
+        
+        
+        else if (x==3)
+        {i="images/pop3.png";if(ammo3_amount<ammolimit[2]){ammo3_amount+=1}}
+        
+        
+        else if (x==5)
+        {i="images/pop5.png"; if(ammo4_amount<ammolimit[3]){ammo4_amount+=1}}
+      else
+         {i="hello"}
+        return i;
+
+      }
+
+
+
+//randomize them
+
+
+      var randompic= function()
+      {
+        var ax= ammoimages[(Math.floor(Math.random()*ammoweight))]
+        var imgname=imageselector(ax)
+        return imgname
+      }
+
+      var randompopup=function(x)
+      {
+       
+        var imgname=popselector(x)
+        return imgname
+      }
+
+      var createenemy=function()
+      { var entype=(Math.floor(Math.random()*enemytypes))
+        var ax= enemyselector[entype]
+        var enemy=new jaws.Sprite(
+          {
+          image:ax,
+         x:Math.random()*(jaws.canvas.width-jaws.assets.get(ax).width),
+         y:(-jaws.assets.get(ax).height),
+         alpha:0.9,
+         speed: ((Math.random()+0.2)*10),
+         type: entype
+
+         
+       }
+         )
+          
+          enemylist.push(enemy)
+
+      }
+
+
+       $("#ammo1").text(0);
+       $("#ammo2").text(0);
+       $("#ammo3").text(0);
+       $("#ammo4").text(0);
+       $("#ammotype").text("None");
+       $("#ammo_sidebar_image").css("background","")
+       $("#fps").text(0);
+
+
+
+</script>
+<script src="js/player_select.js"></script>
+<script src="js/boss.js"></script>
+<script src="js/win.js"></script>
+<script src="js/gameover.js"></script>
+<script src="js/playstate.js"></script>
+<script>
+
+function isOutsideCanvas(item) { 
+        return (item.x < 0 || item.y < 0 || item.x > jaws.width || item.y > jaws.height) 
+      }
+      function bulletisOutsideCanvas(item) { 
+        return (item.x < 0 || item.y < -item.height || item.x > jaws.width || item.y > jaws.height+item.height) 
+      }
+
+      function collisiondetect(obj1,obj2)
+      {
+        //return (obj1.x>obj2.x && (obj1.y+obj1.height)>obj2.y && obj1.x<(obj2.x+obj2.width))
+        return (obj1.x < obj2.x + obj2.width &&
+          obj1.x + obj1.width > obj2.x &&
+         obj1.y < obj2.y + obj2.height &&
+         obj1.y + obj1.height > obj2.y)
+      
+      }
+
+      // function collisiondetect2(item)
+      // {
+      //   //return (item.x>player.x && (item.y+item.height)>player.y && item.x<(player.x+player.width))
+      //   (item.x < player.x + player.width &&
+      //     item.x + item.width > player.x &&
+      //    item.y < player.y + player.height &&
+      //    item.y + item.height > player.y)
+      // }
+
+      function ammoisoutsidecanvas(item)
+      {
+        return(item.y>jaws.height)
+      }
+      function forceInsideCanvas(item) {
+        if(item.x < 0)                  { item.x = 0  }
+        if(item.x + item.width > jaws.width)     { item.x = jaws.width - item.width }
+        if(item.y < 0)                  { item.y = 0 }
+        if(item.y + item.height  > jaws.height)  { item.y = jaws.height - item.height }
+      }
+
+
+      
+
+      function Bullet(x, y, pic) {
+        this.x = x
+        this.y = y
+        this.draw = function() {
+          this.y -= 4
+          jaws.context.drawImage(jaws.assets.get(pic), this.x, this.y)
+
+        }
+
+      }
+
+     
+
+      function Ammo_Single()
+      {
+        
+        
+        var vy=(Math.random()+0.2)*10
+        var ax= ammoimages[(Math.floor(Math.random()*ammoweight))]
+        var pic=imageselector(ax);
+
+        this.x=Math.random()*(jaws.canvas.width-jaws.assets.get(pic).width)
+        this.y=(-jaws.assets.get(pic).height)
+        this.width=jaws.assets.get(pic).width
+        this.height=jaws.assets.get(pic).height
+        this.type=ax;
+        this.draw = function() {
+          //this.y += (Math.random()+0.2)*10
+        this.y += vy
+          jaws.context.drawImage(jaws.assets.get(pic), this.x, this.y)
+
+        }
+
+      }
+
+
+
+
+
+
+    /*
+    *
+    * MenuState is our lobby/welcome menu were gamer can chose start, high score and settings.
+    * For this example we have only implemented start. Start switches active game state by simply:
+    *   jaws.switchGameState(play)   (jaws.switchGameState(PlayState) would have worked too)
+    *
+    */
+    function MenuState() {
+      var index = 0
+      var items = ["Start"]
+      openingmusic.play();
+      this.setup = function() {
+        index = 0
+        jaws.on_keydown(["down","s"],       function()  { index++; if(index >= items.length) {index=items.length-1} } )
+        jaws.on_keydown(["up","w"],         function()  { index--; if(index < 0) {index=0} } )
+        jaws.on_keydown(["enter","space"],  function()  { if(items[index]=="Start" && choose_player==true && choose_enemy==true)
+         {$("#select").hide();
+         jaws.switchGameState(PlayState, {fps: 30});
+
+          } 
+          else
+          {
+            $("#box_text").css("color","red");
+          }
+
+        } )
+      }
+
+      this.update = function()
+      {
+        openingmusic.addEventListener('ended', function() {
+    this.currentTime = 0;
+    this.play();
+}, false);
+      }
+
+      this.draw = function() {
+       // console.log(jaws.runtime(MenuState))
+        jaws.context.clearRect(0,0,jaws.width,jaws.height)
+        for(var i=0; items[i]; i++) {
+          // jaws.context.translate(0.5, 0.5)
+          jaws.context.font = "bold 50pt terminal";
+          jaws.context.lineWidth = 10
+          jaws.context.fillStyle =  (i == index) ? "Red" : "Black"
+          jaws.context.strokeStyle =  "white"
+         // jaws.context.fillText(items[i], 30, 100 + i * 60)
+          jaws.context.fillText(items[i], jaws.width/2 -100, 300 + i * 60)
+        }  
+
+        jaws.context.fillStyle = 'red';
+        jaws.context.strokeStyle='black'
+        jaws.context.font = 'bold 50pt terminal';
+        jaws.context.textBaseline = 'bottom';
+        jaws.context.fillText('The Fat Gobbler Game!', jaws.width/2-300, 200)
+      }
+    }
+
+    /*
+    *
+    * Our script-entry point
+    *
+    */
+
+
+
+    window.onload = function() {
+      jaws.assets.add("css/debut_dark.png")
+      jaws.assets.add("images/icecream.png")
+      jaws.assets.add("images/coke.png")
+      jaws.assets.add("images/pizza.png")
+      jaws.assets.add("images/bucket.png")
+      jaws.assets.add("images/pop1.png")
+      jaws.assets.add("images/pop2.png")
+      jaws.assets.add("images/pop3.png")
+      jaws.assets.add("images/pop5.png")
+      jaws.assets.add("images/pineapple.png")
+      jaws.assets.add("images/broccoli.png")
+      jaws.assets.add("images/lettuce.png")
+      jaws.assets.add("images/popred1.png")
+      jaws.assets.add("images/popred2.png")
+      jaws.assets.add("images/popred3.png")
+      jaws.assets.add("audio/gobble_gobble.ogg");
+      jaws.assets.add("audio/gag.ogg");
+      jaws.assets.add("audio/alarm.ogg");
+      jaws.assets.add("audio/enemy.ogg");
+      jaws.assets.add("audio/gobble_gobble.ogg");
+      jaws.assets.add("audio/loser.ogg");
+      jaws.assets.add("audio/in_game.ogg");
+      jaws.assets.add("audio/scream.ogg");
+      jaws.assets.add("audio/bomb.ogg");
+      jaws.assets.add("audio/gunclick.ogg")
+      jaws.start(MenuState)
+    }
+  </script>
+</div>
+</body>
+
+</html>
+
