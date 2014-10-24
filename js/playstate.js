@@ -99,7 +99,7 @@ if(changingstate==true && ammolist.length==0 && bullets.length==0 && enemylist.l
 
            
        // console.log(jaws.game_loop.runtime())
-       if(jaws.game_loop.runtime()>180000)
+       if(jaws.game_loop.runtime()>120000)
        {
         changingstate=true
         ymca.pause()
@@ -269,8 +269,8 @@ if (collisiondetect(sprite,player))
       {
         //ammolist.removeIf(collisiondetect2)
         ammolist.remove(sprite)
-        gag.pause();
-        gag.play()
+        munch.pause();
+        munch.play()
         if(changingstate==false){
         setTimeout(function(){ammolist.push(new Ammo_Single()) }, Math.random()*5000);}
 
@@ -322,8 +322,8 @@ if (collisiondetect(sprite,player))
 //console.log(jaws.collideManyWithMany(ammolist,enemylist))
   if (jaws.collideOneWithOne(sprite, player))
   { 
-    scream.pause();
-    scream.play();
+    hit.pause();
+    hit.play();
     enemylist.remove(sprite)
    if(changingstate==false){setTimeout(function(){createenemy()},Math.random()*5000)}
    health-=(sprite.type+1)

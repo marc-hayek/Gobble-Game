@@ -7,20 +7,26 @@ body
 
    .wrapper
    {
-    width: 100%;
+   /* width: 100%;*/
+    text-align: center;
+    width: 1250px;
+    margin: 0px auto;
    }
 
 
     #container
     {
       
-    background-image: url(cartoonalley.jpg);
+    background-image: url(back.jpg);
+    background-repeat: none;
+    background-size: cover;
     width: 1023px;
      height:670px;
      margin: 0px auto;
      border: 2px solid gray;
      border-left: 0px;
-     float: right
+     display: inline-block;
+     vertical-align: middle;
      
   
       } 
@@ -29,12 +35,13 @@ body
   width:200px;
   height: 670px;
   background: #E3E3E3;
-  float:left;
   margin-left: 18px;
   border: solid 2px gray;
   color: #333333;
   font-family: ‘Trebuchet MS’, Helvetica, sans-serif;
   font-size: 95%;
+  display: inline-block;
+  vertical-align: middle;
   
   
 }
@@ -132,6 +139,7 @@ color:gray;
   background: gray;
   width: 600px;
   height: 20px;
+  text-align: center;
 }
 
 #vs {

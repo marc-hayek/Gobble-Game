@@ -82,7 +82,7 @@ function winstate()
 		jaws.context.fillStyle = 'red';
         jaws.context.font = 'italic bold 40px sans-serif';
         jaws.context.textBaseline = 'bottom';
-        jaws.context.fillText("YOU WIN YOU SACK OF LARD!", jaws.width/2-300, 200);
+        jaws.context.fillText("YOU WIN!", jaws.width/2-230, 200);
 
 	}
 }

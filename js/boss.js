@@ -378,8 +378,8 @@ jaws.collideOneWithMany(boss,bullets).forEach(function(pair,index)
 //console.log(jaws.collideManyWithMany(ammolist,enemylist))
   if (jaws.collideOneWithOne(sprite, player))
   {
-    scream.pause();
-    scream.play();
+    hit.pause();
+    hit.play();
     enemylist.remove(sprite)
    health-=(sprite.type+1)
      if(health<0 || health==0){health=0;setTimeout(function(){jaws.switchGameState(gameoverstate)},300)}
@@ -442,8 +442,8 @@ if (collisiondetect(sprite,player))
       {
         //ammolist.removeIf(collisiondetect2)
         ammolist.remove(sprite)
-        gag.pause();
-        gag.play()
+        munch.pause();
+        munch.play()
         //var pop=new popup(randompopup(sprite.type))
         //poplist.push(pop)
         var pic=randompopup(sprite.type)

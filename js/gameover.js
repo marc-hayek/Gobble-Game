@@ -38,7 +38,7 @@ function gameoverstate()
         jaws.context.strokeStyle='black'
         jaws.context.font = 'bold 50pt terminal';
         jaws.context.textBaseline = 'bottom';
-        jaws.context.fillText('YOU LOST FATASS!', jaws.width/2-300, 200)
+        jaws.context.fillText('YOU LOST!', jaws.width/2-230, 200)
 	}
 
 }
